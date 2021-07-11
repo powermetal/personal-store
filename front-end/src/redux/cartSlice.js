@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { selectProductsIndex } from './productsSlice';
 
 const pepe = ( items, {id, title, price, img}) => {
     if(items[id]){
@@ -33,21 +34,27 @@ export const cartSlice = createSlice({
     },
 });
 
-export const selectCart = state => state.cart.cart.order.map( id => {
-    const products = state.products.products
-    return {
-        title: products[id].title,
-        image: products[id].image,
-        price: products[id].price,
-        quantity: state.cart.cart.items[id]
-    }
-})
+const selectOrder = state => state.cart.cart.order
+const selectItems = state => state.cart.cart.items
 
-export const selectTotal = state => Object
-    .entries(state.cart.cart.items)
-        .reduce( (acc, [id, quantity] ) => {
-            return acc + state.products.products[id].price * quantity
-}, 0)
+export const selectCart = createSelector(
+    [selectOrder, selectItems, selectProductsIndex],
+    (order, items, products) =>
+       order.map( id => {
+            return {
+                title: products[id].title,
+                image: products[id].image,
+                price: products[id].price,
+                quantity: items[id]
+            }
+        })
+    )
+
+export const selectTotal = state => 
+    Object.entries(selectItems(state))
+          .reduce( (acc, [id, quantity]) => {
+            return acc + selectProductsIndex(state)[id].price * quantity
+    }, 0)
 
 export const {
     addToCart

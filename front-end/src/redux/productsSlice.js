@@ -31,6 +31,7 @@ const productsSlice = createSlice({
     }
 });
 
+export const selectProductsIndex = state => state.products.products
 export const selectProducts = state => Object.values(state.products.products)
 
 export default productsSlice.reducer
