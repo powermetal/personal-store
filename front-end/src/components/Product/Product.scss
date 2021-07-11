@@ -1,0 +1,41 @@
+.product {
+  background-color: white;
+  max-width: 250px;
+  overflow: hidden;
+  box-shadow: 0 0 0.3rem #00000031;
+
+  img {
+    width: 250px;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+  }
+
+  .product-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+
+    span {
+      margin-bottom: 1rem;
+    }
+
+    .product-price {
+      color: grey;
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .MuiSvgIcon-root {
+        font-size: 2rem;
+      }
+
+      p {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
