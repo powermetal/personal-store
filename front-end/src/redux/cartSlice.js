@@ -1,27 +1,9 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { selectProductsIndex } from './productsSlice';
 
-const pepe = ( items, {id, title, price, img}) => {
-    if(items[id]){
-        return { [id]: {...items[id], price: items[id].price, quantity: items[id].quantity + 1} }
-    }
-    else {
-        return {
-            [id]: {
-                title,
-                price,
-                img,
-                quantity: 1
-            }
-        }
-    }
-}
-
 const initialState = {
-    cart: {
-        items: {1:4, 3:2},
-        order: [3, 1]
-    }
+        items: {},
+        order: []
 }
 
 export const cartSlice = createSlice({
@@ -29,13 +11,18 @@ export const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            return state
+            const id = action.payload
+            return {
+                ...state,
+                items: {...state.items, [id]: state.items[id] ? state.items[id] + 1 : 1 },
+                order: state.order.find( e => e === id) ? state.order : [...state.order, id]
+            }
         }
     },
 });
 
-const selectOrder = state => state.cart.cart.order
-const selectItems = state => state.cart.cart.items
+const selectOrder = state => state.cart.order
+const selectItems = state => state.cart.items
 
 export const selectCart = createSelector(
     [selectOrder, selectItems, selectProductsIndex],

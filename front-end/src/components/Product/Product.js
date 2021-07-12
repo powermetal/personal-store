@@ -9,7 +9,7 @@ const Product = ({title, price, img, id}) => {
     const dispatch = useDispatch()
 
     const onClick = () => {
-        dispatch(addToCart({id}))
+        dispatch(addToCart(id))
     }
 
     return (
